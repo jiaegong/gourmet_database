@@ -5,7 +5,7 @@ function Navbar() {
   return (
     <Layout>
       <img src='/sumikko.png' alt='logo' height={40} />
-      구루메디비
+      <p>구루메디비</p>
     </Layout>
   );
 }
@@ -13,10 +13,10 @@ function Navbar() {
 export default Navbar;
 
 const Layout = styled.div`
+  grid-area: header;
   display: flex;
   align-items: center;
   width: 100vw;
-  height: 60px;
   background-color: #e0e8f3;
   font-family: 'GangwonEduSaeeum_OTFMediumA';
   font-size: 30px;
