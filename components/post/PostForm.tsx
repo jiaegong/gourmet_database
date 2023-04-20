@@ -1,31 +1,46 @@
 import styled from '@emotion/styled';
 import { Input, Button } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { createGourmet } from '../../api/gourmet';
 
 function PostForm() {
-  const { register } = useForm();
+  const { register, handleSubmit } = useForm();
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: createGourmet,
+    onSuccess: () => console.log('저장!'),
+    onError: () => console.log('실패!'),
+  });
 
   return (
-    <Layout>
-      <Title>My place 등록</Title>
-      <RowBox>
-        이름
-        <Input {...register('name', { required: true })} />
-      </RowBox>
-      <RowBox>
-        평점
-        <Input {...register('rating', { required: true })} />
-      </RowBox>
-      <RowBox>
-        설명
-        <Input {...register('desc')} />
-      </RowBox>
-      <RowBox>
-        타입
-        <Input {...register('type', { required: true })} />
-      </RowBox>
-      <Button>저장하기</Button>
-    </Layout>
+    <form onSubmit={handleSubmit((form) => mutate(form))}>
+      <Layout>
+        <Title>My place 등록</Title>
+        <RowBox>
+          이름
+          <Input {...register('name', { required: true })} />
+        </RowBox>
+        <RowBox>
+          평점
+          <Input {...register('rating', { required: true })} />
+        </RowBox>
+        <RowBox>
+          설명
+          <Input {...register('desc')} />
+        </RowBox>
+        <RowBox>
+          타입
+          <Input {...register('type', { required: true })} />
+        </RowBox>
+        <Button
+          type='submit'
+          disabled={isLoading}
+        >
+          저장하기
+        </Button>
+      </Layout>
+    </form>
   );
 }
 
