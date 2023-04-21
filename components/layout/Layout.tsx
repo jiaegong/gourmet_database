@@ -1,10 +1,11 @@
 import React from 'react';
 import Navbar from '../navbar/Navbar';
 import styled from '@emotion/styled';
+import { Pretendard } from '../../utils/fonts';
 
 function Layout({ children }: React.PropsWithChildren) {
   return (
-    <Container>
+    <Container className={Pretendard.className}>
       <Navbar />
       <Main>{children}</Main>
     </Container>
@@ -17,7 +18,7 @@ const Container = styled.div`
   width: 100v;
   height: 100vh;
   display: grid;
-  grid-template-rows: 60px auto;
+  grid-template-rows: 55px auto;
   grid-template-areas:
     'header'
     'main';

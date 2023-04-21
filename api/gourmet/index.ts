@@ -1,3 +1,4 @@
+import { PostForm } from '../../types/post';
 import AxiosInstance from '../instance';
 
 export const getGourmetList = async (params) => {
@@ -12,13 +13,13 @@ export const getOneGourmet = async (id: string) => {
   return data;
 };
 
-export const createGourmet = async (form) => {
+export const createGourmet = async (form: PostForm) => {
   const { data } = await AxiosInstance.post('/gourmet', form);
 
   return data;
 };
 
-export const updateGourmet = async (id: string, form) => {
+export const updateGourmet = async (id: string, form: PostForm) => {
   const { data } = await AxiosInstance.put(`/gourmet/${id}`, form);
 
   return data;
