@@ -57,7 +57,6 @@ export default PostForm;
 
 const Layout = styled.div`
   width: 430px;
-  height: 700px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   margin: 90px auto;

@@ -15,7 +15,7 @@ function Layout({ children }: React.PropsWithChildren) {
 export default Layout;
 
 const Container = styled.div`
-  width: 100v;
+  width: 100vw;
   height: 100vh;
   display: grid;
   grid-template-rows: 55px auto;
