@@ -1,7 +1,7 @@
 import React from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Map from '../components/map/Map';
+import MainPage from '../components/main/MainPage';
 
 const Home: NextPage = () => {
   return (
@@ -17,7 +17,7 @@ const Home: NextPage = () => {
           href='/favicon.ico'
         />
       </Head>
-      <Map />
+      <MainPage />
     </>
   );
 };

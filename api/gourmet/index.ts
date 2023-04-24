@@ -1,8 +1,8 @@
-import { PostForm } from '../../types/post';
+import { PostData, PostForm } from '../../types/post';
 import AxiosInstance from '../instance';
 
 export const getGourmetList = async (params) => {
-  const { data } = await AxiosInstance.get('/gourmet', { params });
+  const { data } = await AxiosInstance.get<PostData[]>('/gourmet', { params });
 
   return data;
 };

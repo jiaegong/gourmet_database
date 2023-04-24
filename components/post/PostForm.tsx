@@ -18,7 +18,7 @@ function PostForm() {
   return (
     <form onSubmit={handleSubmit((form: PostForm) => mutate(form))}>
       <Layout>
-        <Title>구루메 등록하기</Title>
+        <Title>등록하기</Title>
         <Stack sx={{ padding: '32px', gap: '25px' }}>
           <FormTextField
             label='이름'
@@ -62,6 +62,7 @@ const Layout = styled.div`
   margin: 90px auto;
   display: flex;
   flex-direction: column;
+  background: #fff;
 `;
 
 const Title = styled.div`
@@ -73,24 +74,26 @@ const Title = styled.div`
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   font-family: ${UhBeeSe_hyun.style.fontFamily};
+  color: #13171d;
 `;
 
 const FormTextField = styled(TextField)`
+  background: #fff;
   & label {
     color: #b3b3b3;
   }
   & label.Mui-focused {
-    color: #a2bcdc;
+    color: #89a5cc;
   }
   & .MuiOutlinedInput-root {
     & fieldset {
       border: 1px solid #b3b3b3;
     }
     &:hover fieldset {
-      border-color: #a2bcdc;
+      border-color: #89a5cc;
     }
     &.Mui-focused fieldset {
-      border-color: #a2bcdc;
+      border-color: #89a5cc;
     }
   }
   & input {
@@ -103,6 +106,6 @@ const SaveButton = styled(Button)`
   box-shadow: none;
 
   &:hover {
-    background: #a2bcdc;
+    background: #89a5cc;
   }
 `;

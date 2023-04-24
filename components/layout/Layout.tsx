@@ -26,4 +26,5 @@ const Container = styled.div`
 
 const Main = styled.div`
   grid-area: main;
+  background: #f3f3f3;
 `;
