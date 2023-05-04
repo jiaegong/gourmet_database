@@ -3,6 +3,7 @@ export interface PostForm {
   rating: number;
   desc: string;
   type: string;
+  location: string;
 }
 
 export interface PostData {
@@ -10,7 +11,7 @@ export interface PostData {
   rating: number;
   desc: string;
   type: string;
+  location: string;
   createdDate: string;
   _id: string;
 }
-

@@ -19,7 +19,7 @@ export const createGourmet = async (form: PostForm) => {
   return data;
 };
 
-export const updateGourmet = async (id: string, form: PostForm) => {
+export const updateGourmet = async ({ id, form }) => {
   const { data } = await AxiosInstance.put(`/gourmet/${id}`, form);
 
   return data;

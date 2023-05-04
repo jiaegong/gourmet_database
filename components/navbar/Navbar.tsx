@@ -15,7 +15,6 @@ function Navbar() {
         />
         <p>구루메디비</p>
       </Logo>
-      <PostButton onClick={() => router.push('/post')}>지애만 등록</PostButton>
     </Layout>
   );
 }
@@ -26,7 +25,6 @@ const Layout = styled.div`
   grid-area: header;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100vw;
   background-color: #e0e8f3;
   font-family: ${UhBeeSe_hyun.style.fontFamily};
@@ -42,11 +40,4 @@ const Logo = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-`;
-
-const PostButton = styled.div`
-  cursor: pointer;
-  &:hover {
-    color: #89a5cc;
-  }
 `;

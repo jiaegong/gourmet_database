@@ -1,55 +1,93 @@
 import styled from '@emotion/styled';
-import { Stack, TextField, Button } from '@mui/material';
+import { Stack, TextField, Button, Modal } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { createGourmet } from '../../api/gourmet';
 import { PostForm } from '../../types/post';
 import { UhBeeSe_hyun } from '../../utils/fonts';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
-function PostForm() {
+type Props = {
+  open: boolean;
+  onClose: () => void;
+};
+
+function PostForm({ open, onClose }: Props) {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<PostForm>();
 
   const { mutate, isLoading } = useMutation({
     mutationFn: createGourmet,
-    onSuccess: () => console.log('저장!'),
-    onError: () => console.log('실패!'),
+    onSuccess: () => {
+      toast.success('저장되었습니다!');
+      router.push('/');
+    },
+    onError: (error) => toast.error(`에러 발생! ${error}`),
   });
 
   return (
-    <form onSubmit={handleSubmit((form: PostForm) => mutate(form))}>
-      <Layout>
-        <Title>등록하기</Title>
-        <Stack sx={{ padding: '32px', gap: '25px' }}>
-          <FormTextField
-            label='이름'
-            variant='outlined'
-            {...register('name', { required: true })}
-          />
-          <FormTextField
-            label='평점'
-            variant='outlined'
-            {...register('rating', { required: true })}
-          />
-          <FormTextField
-            label='설명'
-            variant='outlined'
-            {...register('desc', { required: true })}
-          />
-          <FormTextField
-            label='타입'
-            variant='outlined'
-            {...register('type', { required: true })}
-          />
-          <SaveButton
-            variant='contained'
-            type='submit'
-            disabled={isLoading}
-          >
-            저장하기
-          </SaveButton>
-        </Stack>
-      </Layout>
-    </form>
+    <Modal
+      open={open}
+      onClose={onClose}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        '& .MuiBackdrop-root': {
+          backgroundColor: 'transparent',
+        },
+      }}
+    >
+      <form onSubmit={handleSubmit((form: PostForm) => mutate(form))}>
+        <Layout>
+          <Title>등록하기</Title>
+          <Stack sx={{ padding: '32px', gap: '25px' }}>
+            <FormTextField
+              label='이름'
+              variant='outlined'
+              {...register('name', { required: true })}
+            />
+            <FormTextField
+              label='평점'
+              variant='outlined'
+              {...register('rating', { required: true })}
+            />
+            <FormTextField
+              label='설명'
+              variant='outlined'
+              {...register('desc', { required: true })}
+            />
+            <FormTextField
+              label='타입'
+              variant='outlined'
+              {...register('type', { required: true })}
+            />
+            <FormTextField
+              label='위치'
+              variant='outlined'
+              {...register('location', { required: true })}
+            />
+            <Stack sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+              <CancelButton
+                variant='contained'
+                type='button'
+                onClick={onClose}
+              >
+                취소
+              </CancelButton>
+              <SaveButton
+                variant='contained'
+                type='submit'
+                disabled={isLoading}
+              >
+                저장하기
+              </SaveButton>
+            </Stack>
+          </Stack>
+        </Layout>
+      </form>
+    </Modal>
   );
 }
 
@@ -101,11 +139,20 @@ const FormTextField = styled(TextField)`
   }
 `;
 
-const SaveButton = styled(Button)`
+const buttonStyle = `
+  width: 100%;
   background: #e0e8f3;
   box-shadow: none;
 
   &:hover {
     background: #89a5cc;
   }
+`;
+
+const SaveButton = styled(Button)`
+  ${buttonStyle}
+`;
+
+const CancelButton = styled(Button)`
+  ${buttonStyle}
 `;
