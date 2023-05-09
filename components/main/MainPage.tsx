@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import Map from './Map';
+import Map from './map/Map';
 import Sidebar from './sidebar/Sidebar';
 
 function MainPage() {

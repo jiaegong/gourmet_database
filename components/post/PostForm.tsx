@@ -7,6 +7,8 @@ import { PostForm } from '../../types/post';
 import { UhBeeSe_hyun } from '../../utils/fonts';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import { useHandleClickableMap } from '../../store/clickableMap';
+import { useAddress } from '../../store/address';
 
 type Props = {
   open: boolean;
@@ -14,6 +16,9 @@ type Props = {
 };
 
 function PostForm({ open, onClose }: Props) {
+  const address = useAddress();
+  const handleClickableMap = useHandleClickableMap();
+
   const router = useRouter();
   const { register, handleSubmit } = useForm<PostForm>();
 
@@ -23,20 +28,21 @@ function PostForm({ open, onClose }: Props) {
       toast.success('저장되었습니다!');
       router.push('/');
     },
-    onError: (error) => toast.error(`에러 발생! ${error}`),
+    onError: error => toast.error(`에러 발생! ${error}`),
   });
 
   return (
     <Modal
       open={open}
       onClose={onClose}
+      hideBackdrop
       sx={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        '& .MuiBackdrop-root': {
-          backgroundColor: 'transparent',
-        },
+        left: 'calc(470px - 80px)', // 80px 왜 생기는 걸까..
+        width: '430px',
+        height: 'auto',
       }}
     >
       <form onSubmit={handleSubmit((form: PostForm) => mutate(form))}>
@@ -63,11 +69,15 @@ function PostForm({ open, onClose }: Props) {
               variant='outlined'
               {...register('type', { required: true })}
             />
-            <FormTextField
-              label='위치'
-              variant='outlined'
-              {...register('location', { required: true })}
-            />
+            <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
+              <FormTextField
+                label='위치'
+                variant='outlined'
+                value={address}
+                {...register('location', { required: true })}
+              />
+              <Button onClick={() => handleClickableMap(true)}>지도에서 클릭</Button>
+            </Stack>
             <Stack sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
               <CancelButton
                 variant='contained'
@@ -97,7 +107,6 @@ const Layout = styled.div`
   width: 430px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-  margin: 90px auto;
   display: flex;
   flex-direction: column;
   background: #fff;
