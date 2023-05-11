@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, IconButton } from '@mui/material';
-import { useDeleteGourmet } from './hooks/useListItemQuery';
+import { useDeleteGourmet } from './hooks/listItemHooks';
 
 type Props = {
   data: PostData;
@@ -12,16 +12,14 @@ type Props = {
 
 function ListItem({ data }: Props) {
   const { mutate: deleteGourmet } = useDeleteGourmet();
+
   return (
     <Layout>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <IconButton sx={{ ':hover': { color: '#89a5cc' } }}>
           <EditIcon />
         </IconButton>
-        <IconButton
-          sx={{ ':hover': { color: '#89a5cc' } }}
-          onClick={() => deleteGourmet(data._id)}
-        >
+        <IconButton sx={{ ':hover': { color: '#89a5cc' } }} onClick={() => deleteGourmet(data._id)}>
           <DeleteIcon />
         </IconButton>
       </Box>

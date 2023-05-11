@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { UhBeeSe_hyun } from '../../../utils/fonts';
 import ListItem from './ListItem';
-import { useGetGourmetList } from './hooks/useListItemQuery';
+import { useGetGourmetList } from './hooks/listItemHooks';
 import { IconButton, Stack } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import PostForm from '../../post/PostForm';
@@ -25,26 +25,17 @@ function Sidebar() {
           }}
         >
           <Title>리스트</Title>
-          <IconButton
-            sx={{ ':hover': { color: '#89a5cc' } }}
-            onClick={() => setOpen(true)}
-          >
+          <IconButton sx={{ ':hover': { color: '#89a5cc' } }} onClick={() => setOpen(true)}>
             <AddCircleIcon />
           </IconButton>
         </Stack>
-        {data?.map((item) => (
-          <ListItem
-            key={item._id}
-            data={item}
-          />
+        {data?.map(item => (
+          <ListItem key={item._id} data={item} />
         ))}
       </Layout>
 
       {/* 등록하기 모달 */}
-      <PostForm
-        open={open}
-        onClose={() => setOpen(false)}
-      />
+      <PostForm open={open} onClose={() => setOpen(false)} />
     </>
   );
 }

@@ -1,14 +1,11 @@
 import styled from '@emotion/styled';
 import { Stack, TextField, Button, Modal } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
-import { createGourmet } from '../../api/gourmet';
 import { PostForm } from '../../types/post';
 import { UhBeeSe_hyun } from '../../utils/fonts';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
 import { useHandleClickableMap } from '../../store/clickableMap';
-import { useAddress } from '../../store/address';
+import { usePlaceAddress, usePlaceLocation } from '../../store/placeInfo';
+import { usePostGourmet } from './hooks/postFormHooks';
 
 type Props = {
   open: boolean;
@@ -16,20 +13,21 @@ type Props = {
 };
 
 function PostForm({ open, onClose }: Props) {
-  const address = useAddress();
+  const placeAddress = usePlaceAddress();
+  const placeLocation = usePlaceLocation();
   const handleClickableMap = useHandleClickableMap();
 
-  const router = useRouter();
-  const { register, handleSubmit } = useForm<PostForm>();
+  const { register, handleSubmit } = useForm<Omit<PostForm, 'location'>>();
 
-  const { mutate, isLoading } = useMutation({
-    mutationFn: createGourmet,
-    onSuccess: () => {
-      toast.success('저장되었습니다!');
-      router.push('/');
-    },
-    onError: error => toast.error(`에러 발생! ${error}`),
-  });
+  const { mutate: postGourmet, isLoading } = usePostGourmet();
+
+  const onSubmit = (form: Omit<PostForm, 'location'>) => {
+    const formData: PostForm = {
+      ...form,
+      location: placeLocation,
+    };
+    postGourmet(formData);
+  };
 
   return (
     <Modal
@@ -45,52 +43,23 @@ function PostForm({ open, onClose }: Props) {
         height: 'auto',
       }}
     >
-      <form onSubmit={handleSubmit((form: PostForm) => mutate(form))}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Layout>
           <Title>등록하기</Title>
           <Stack sx={{ padding: '32px', gap: '25px' }}>
-            <FormTextField
-              label='이름'
-              variant='outlined'
-              {...register('name', { required: true })}
-            />
-            <FormTextField
-              label='평점'
-              variant='outlined'
-              {...register('rating', { required: true })}
-            />
-            <FormTextField
-              label='설명'
-              variant='outlined'
-              {...register('desc', { required: true })}
-            />
-            <FormTextField
-              label='타입'
-              variant='outlined'
-              {...register('type', { required: true })}
-            />
+            <FormTextField label="이름" variant="outlined" {...register('name', { required: true })} />
+            <FormTextField label="평점" variant="outlined" {...register('rating', { required: true })} />
+            <FormTextField label="설명" variant="outlined" {...register('desc', { required: true })} />
+            <FormTextField label="타입" variant="outlined" {...register('type', { required: true })} />
             <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
-              <FormTextField
-                label='위치'
-                variant='outlined'
-                value={address}
-                {...register('location', { required: true })}
-              />
+              <FormTextField label="위치" variant="outlined" value={placeAddress} />
               <Button onClick={() => handleClickableMap(true)}>지도에서 클릭</Button>
             </Stack>
             <Stack sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-              <CancelButton
-                variant='contained'
-                type='button'
-                onClick={onClose}
-              >
+              <CancelButton variant="contained" type="button" onClick={onClose}>
                 취소
               </CancelButton>
-              <SaveButton
-                variant='contained'
-                type='submit'
-                disabled={isLoading}
-              >
+              <SaveButton variant="contained" type="submit" disabled={isLoading}>
                 저장하기
               </SaveButton>
             </Stack>
