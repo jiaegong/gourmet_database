@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { UhBeeSe_hyun } from '../../../utils/fonts';
 import ListItem from './ListItem';
-import { useGetGourmetList } from './hooks/listItemHooks';
+import useGetGourmetList from './hooks/useGetGourmetList';
 import { IconButton, Stack } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import PostForm from '../../post/PostForm';

@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, IconButton } from '@mui/material';
-import { useDeleteGourmet } from './hooks/listItemHooks';
+import useDeleteGourmet from './hooks/useDeleteGourmet';
 
 type Props = {
   data: PostData;

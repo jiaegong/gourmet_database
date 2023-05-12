@@ -5,7 +5,7 @@ import { PostForm } from '../../types/post';
 import { UhBeeSe_hyun } from '../../utils/fonts';
 import { useHandleClickableMap } from '../../store/clickableMap';
 import { usePlaceAddress, usePlaceLocation } from '../../store/placeInfo';
-import { usePostGourmet } from './hooks/postFormHooks';
+import usePostGourmet from './hooks/usePostGourmet';
 
 type Props = {
   open: boolean;
@@ -29,10 +29,15 @@ function PostForm({ open, onClose }: Props) {
     postGourmet(formData);
   };
 
+  const handleClose = () => {
+    onClose();
+    handleClickableMap(false);
+  };
+
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       hideBackdrop
       sx={{
         display: 'flex',
@@ -56,7 +61,7 @@ function PostForm({ open, onClose }: Props) {
               <Button onClick={() => handleClickableMap(true)}>지도에서 클릭</Button>
             </Stack>
             <Stack sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-              <CancelButton variant="contained" type="button" onClick={onClose}>
+              <CancelButton variant="contained" type="button" onClick={handleClose}>
                 취소
               </CancelButton>
               <SaveButton variant="contained" type="submit" disabled={isLoading}>
